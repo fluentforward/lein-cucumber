@@ -4,8 +4,8 @@ lein-cucumber is a leiningen plugin that simplifies the running of cucumber test
 
 ## Usage
 
-Simply create a test/features directory to contain your feature files, and a
-test/features/step_definitions directory to contain all of your related
+Simply create a `test/features` directory to contain your feature files, and a
+`test/features/step_definitions` directory to contain all of your related
 test steps.
 
 Add a dependency on 
