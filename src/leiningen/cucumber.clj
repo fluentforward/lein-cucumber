@@ -1,11 +1,18 @@
-(ns leiningen.cucumber)
+(ns leiningen.cucumber
+	(:use [leiningen.compile :only [eval-in-project]])
+    (:require [leiningen.core :as core]))
 
-(defn cucumber [] 
-	(def formatter (gherkin.formatter.PrettyFormatter. System/out true true))
-	(def reporter formatter)
-	(def classloader (.getContextClassLoader (Thread/currentThread)))
-	(def runtime (cucumber.runtime.Runtime. (cucumber.io.FileResourceLoader.) ["test/features/step_definitions"] classloader false))
-	(.run runtime ["test/features"] [] formatter reporter)
-	(.print (cucumber.runtime.snippets.SummaryPrinter. System/out) runtime)
-	(doto formatter (.done) (.close))
-	)
+(defn cucumber [project] 
+	(let [runtime (gensym "runtime")]
+    (eval-in-project
+     project
+     `(do
+        (let [~runtime (leiningen.cucumber.util/exec-cucumber)]
+          (println)
+          ~(when-not core/*interactive?*
+             `(System/exit (.exitStatus ~runtime)))))
+     nil
+     nil
+     '(require 'leiningen.cucumber.util))))
+	
+

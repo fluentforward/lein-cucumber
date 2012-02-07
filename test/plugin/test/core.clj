@@ -1,6 +1,4 @@
-(ns plugin.test.core
-  (:use [leiningen.cucumber])
-  (:use [clojure.test]))
+(ns plugin.test.core)
 
 (def belly (atom []))
 
@@ -17,5 +15,3 @@
 (defn eat [things]
   (swap! belly concat things))
   
-(deftest run-cucumber
-  (cucumber))
